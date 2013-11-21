@@ -23,6 +23,7 @@ module CrazyPills
   def self.aliased(*args)
     @aliased ||= []
     @aliased.concat(args) if args
+    puts "Aliased #{args}" if ENV['DEBUG']
     @aliased
   end
 
@@ -45,11 +46,13 @@ module CrazyPills
 
     method_to_crazy = class_to_crazy.instance_methods.sample
 
-    if Time.now.to_i % 3 == 1
+    if [true, false].sample
       self.made_nil("#{class_to_crazy}##{method_to_crazy}")
 
-      class_to_crazy.define_method(method_to_crazy) do
-        nil
+      class_to_crazy.class_eval do
+        define_method(method_to_crazy) do
+          nil
+        end
       end
     else
       alias_to = class_to_crazy.instance_methods.sample
@@ -64,10 +67,11 @@ module CrazyPills
   def self.made_nil(name = nil)
     @made_nil ||= []
     @made_nil << name if name
+    puts "Nil-ify #{name}" if ENV['DEBUG']
     @made_nil
   end
 
-  (ENV['HOW_CRAZY'] || ENV['CRAZY'] || 1).times do
+  (ENV['HOW_CRAZY'] || ENV['CRAZY'] || 1).to_i.times do
     lets_get_crazy!(*THINGS_TO_CRAZY)
   end
 end
