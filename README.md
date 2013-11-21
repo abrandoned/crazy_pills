@@ -70,6 +70,10 @@ And if you need to debug, then just pass a DEBUG flag
   # Nil-ify Exception#__id__
 ```
 
+A word of warning, sometimes `crazy_pills` will put your Ruby VM
+into a state that cannot recover or quit.  THIS IS THE EXPECTED
+RANDOM BEHAVIOR OF CRAZY_PILLS, just FYI
+
 ## Contributing
 
 1. Fork it
